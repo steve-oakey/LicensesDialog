@@ -16,40 +16,74 @@
 
 package de.psdev.licensesdialog.licenses;
 
-import android.content.Context;
-import android.util.Log;
-import org.apache.commons.io.IOUtils;
-
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 
-public abstract class License implements Serializable {
+import android.content.Context;
+import android.util.Log;
 
-    private static final long serialVersionUID = 3100331505738956523L;
+public abstract class License implements Serializable
+{
 
-    public abstract String getName();
+	private static final long serialVersionUID = 3100331505738956523L;
 
-    public abstract String getSummaryText(final Context context);
+	public abstract String getName();
 
-    public abstract String getFullText(final Context context);
+	public abstract String getSummaryText(final Context context);
 
-    public abstract String getVersion();
+	public abstract String getFullText(final Context context);
 
-    public abstract String getUrl();
+	public abstract String getVersion();
 
-    //
+	public abstract String getUrl();
 
-    protected String getContent(final Context context, final int contentResourceId) {
-        InputStream inputStream = null;
-        try {
-            inputStream = context.getResources().openRawResource(contentResourceId);
-            return IOUtils.toString(inputStream);
-        } catch (IOException e) {
-            Log.e("LicenseDialog", e.getMessage(), e);
-            return "";
-        } finally {
-            IOUtils.closeQuietly(inputStream);
-        }
-    }
+	//
+
+	protected String getContent(final Context context, final int contentResourceId)
+	{
+		BufferedReader reader = null;
+		try
+		{
+			InputStream inputStream = context.getResources().openRawResource(contentResourceId);
+			if (inputStream != null)
+			{
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				return toString(reader);
+			}
+			throw new IOException("Error opening license file.");
+		}
+		catch (IOException e)
+		{
+			Log.e("LicenseDialog", e.getMessage(), e);
+			return "";
+		}
+		finally
+		{
+			if (reader != null)
+			{
+				try
+				{
+					reader.close();
+				}
+				catch (IOException e)
+				{
+					// Don't care.
+				}
+			}
+		}
+	}
+
+	private String toString(BufferedReader reader) throws IOException
+	{
+		StringBuilder builder = new StringBuilder();
+		String line = null;
+		while ((line = reader.readLine()) != null)
+		{
+			builder.append(line);
+		}
+		return builder.toString();
+	}
 }

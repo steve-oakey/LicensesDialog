@@ -16,50 +16,52 @@
 
 package de.psdev.licensesdialog;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
 import de.psdev.licensesdialog.licenses.BSD3ClauseLicense;
 import de.psdev.licensesdialog.licenses.ISCLicense;
 import de.psdev.licensesdialog.licenses.License;
 import de.psdev.licensesdialog.licenses.MITLicense;
-import org.simpleframework.xml.transform.Transform;
 
-import java.util.HashMap;
-import java.util.Map;
+public class LicenseResolver
+{
+	private static final int INITIAL_LICENSES_COUNT = 4;
 
-public class LicenseResolver implements Transform<License> {
+	private static Map<String, License> sLicenses = new HashMap<String, License>(
+			INITIAL_LICENSES_COUNT);
 
-    private static final int INITIAL_LICENSES_COUNT = 4;
+	static
+	{
+		registerLicense(new ApacheSoftwareLicense20());
+		registerLicense(new ISCLicense());
+		registerLicense(new MITLicense());
+		registerLicense(new BSD3ClauseLicense());
+	}
 
-    private static Map<String, License> sLicenses = new HashMap<String, License>(INITIAL_LICENSES_COUNT);
+	/**
+	 * Register an additional license.
+	 * 
+	 * @param license
+	 *            the license to register
+	 */
+	static void registerLicense(final License license)
+	{
+		sLicenses.put(license.getName(), license);
+	}
 
-    static {
-        registerLicense(new ApacheSoftwareLicense20());
-        registerLicense(new ISCLicense());
-        registerLicense(new MITLicense());		
-        registerLicense(new BSD3ClauseLicense());
-    }
-
-    /**
-     * Register an additional license.
-     *
-     * @param license the license to register
-     */
-    public static void registerLicense(final License license) {
-        sLicenses.put(license.getName(), license);
-    }
-
-    @Override
-    public License read(final String license) {
-    	String trimmedLicense = license.trim();
-        if (sLicenses.containsKey(trimmedLicense)) {
-            return sLicenses.get(trimmedLicense);
-        } else {
-            throw new IllegalStateException("no such license available: " + trimmedLicense + ", did you forget to register it?");
-        }
-    }
-
-    @Override
-    public String write(final License value) {
-        return value.getName();
-    }
+	public static License read(final String license)
+	{
+		String trimmedLicense = license.trim();
+		if (sLicenses.containsKey(trimmedLicense))
+		{
+			return sLicenses.get(trimmedLicense);
+		}
+		else
+		{
+			throw new IllegalStateException("no such license available: " + trimmedLicense
+					+ ", did you forget to register it?");
+		}
+	}
 }

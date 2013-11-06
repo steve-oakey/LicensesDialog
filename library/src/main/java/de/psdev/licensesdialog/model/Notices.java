@@ -16,24 +16,20 @@
 
 package de.psdev.licensesdialog.model;
 
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
-
+import java.util.ArrayList;
 import java.util.List;
 
-@Root(name = "notices")
-public class Notices {
+public class Notices
+{
+	private List<Notice> mNotices = new ArrayList<Notice>();
 
-    @ElementList(inline = true)
-    private List<Notice> mNotices;
+	public void addNotice(Notice notice)
+	{
+		mNotices.add(notice);
+	}
 
-    // Setter / Getter
-
-    public void setNotices(final List<Notice> notices) {
-        mNotices = notices;
-    }
-
-    public List<Notice> getNotices() {
-        return mNotices;
-    }
+	public List<Notice> getNotices()
+	{
+		return mNotices;
+	}
 }

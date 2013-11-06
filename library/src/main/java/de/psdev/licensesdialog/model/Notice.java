@@ -16,68 +16,70 @@
 
 package de.psdev.licensesdialog.model;
 
-import de.psdev.licensesdialog.licenses.License;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
-
 import java.io.Serializable;
 
-@Root(name = "notice")
-public class Notice implements Serializable {
-    private static final long serialVersionUID = -6257913944601445939L;
+import de.psdev.licensesdialog.licenses.License;
 
-    @Element(name = "name")
-    private String mName;
-    @Element(name = "url", required = false)
-    private String mUrl;
-    @Element(name = "copyright", required = false)
-    private String mCopyright;
-    @Element(name = "license")
-    private License mLicense;
+public class Notice implements Serializable
+{
+	private static final long serialVersionUID = -6257913944601445939L;
 
-    //
+	private String mName;
+	private String mUrl;
+	private String mCopyright;
+	private License mLicense;
 
-    public Notice() {
-    }
+	public Notice()
+	{
+	}
 
-    public Notice(final String name, final String url, final String copyright, final License license) {
-        mName = name;
-        mUrl = url;
-        mCopyright = copyright;
-        mLicense = license;
-    }
+	public Notice(final String name, final String url, final String copyright, final License license)
+	{
+		mName = name;
+		mUrl = url;
+		mCopyright = copyright;
+		mLicense = license;
+	}
 
-    // Setter / Getter
+	// Setter / Getter
 
-    public void setName(final String name) {
-        mName = name;
-    }
+	public void setName(final String name)
+	{
+		mName = name;
+	}
 
-    public void setUrl(final String url) {
-        mUrl = url;
-    }
+	public void setUrl(final String url)
+	{
+		mUrl = url;
+	}
 
-    public void setCopyright(final String copyright) {
-        mCopyright = copyright;
-    }
+	public void setCopyright(final String copyright)
+	{
+		mCopyright = copyright;
+	}
 
-    public void setLicense(final License license) {
-        mLicense = license;
-    }
+	public void setLicense(final License license)
+	{
+		mLicense = license;
+	}
 
-    public String getName() {
-        return mName;
-    }
+	public String getName()
+	{
+		return mName;
+	}
 
-    public String getUrl() {
-        return mUrl;
-    }
+	public String getUrl()
+	{
+		return mUrl;
+	}
 
-    public String getCopyright() {
-        return mCopyright;
-    }
+	public String getCopyright()
+	{
+		return mCopyright;
+	}
 
-    public License getLicense() {
-        return mLicense;
-    }
+	public License getLicense()
+	{
+		return mLicense;
+	}
 }
